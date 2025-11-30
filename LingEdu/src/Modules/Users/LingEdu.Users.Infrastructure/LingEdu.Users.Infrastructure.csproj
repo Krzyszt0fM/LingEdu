@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LingEdu.Users.Domain\LingEdu.Users.Domain.csproj" />
+	  <ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Infrastructure\LingEdu.BuildingBlocks.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
