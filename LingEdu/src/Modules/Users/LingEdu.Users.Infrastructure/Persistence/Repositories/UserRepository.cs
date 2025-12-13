@@ -29,7 +29,9 @@ namespace LingEdu.Users.Infrastructure.Persistence.Repositories
         public async Task AddAsync(User user, CancellationToken cancellationToken = default)
         {
             await _dbContext.Users.AddAsync(user, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
+
 
         public Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default)
         {
