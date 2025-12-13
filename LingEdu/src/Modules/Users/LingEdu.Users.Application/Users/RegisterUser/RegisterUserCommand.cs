@@ -1,36 +1,23 @@
-using LingEdu.BuildingBlocks.Application;
-using LingEdu.Users.Application.Common;
-using LingEdu.Users.Domain.Users;
+﻿using LingEdu.BuildingBlocks.Application.Cqrs;
 
-namespace LingEdu.Users.Application.Users.RegisterUser;
-
-public record RegisterUserCommand(string Email, string Login, string Password, Language Language) : ICommand<UserDto>;
-
-public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserDto>
+namespace LingEdu.Users.Application.Users.RegisterUser
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordHasher<User> _passwordHasher;
-
-    public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
+    public sealed class RegisterUserCommand : ICommand<UserDto>
     {
-        _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
-    }
-
-    public async Task<Result<UserDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
-    {
-        if (await _userRepository.EmailExistsAsync(request.Email, cancellationToken))
+        public RegisterUserCommand(string email, string userName, string password, int language)
         {
-            return Result<UserDto>.Failure(Error.Validation("Email already exists"));
+            Email = email;
+            UserName = userName;
+            Password = password;
+            Language = language;
         }
 
-        var user = new User(request.Email, request.Login, string.Empty, request.Language);
-        var passwordHash = _passwordHasher.HashPassword(user, request.Password);
-        user = new User(request.Email, request.Login, passwordHash, request.Language);
+        public string Email { get; }
 
-        await _userRepository.AddAsync(user, cancellationToken);
+        public string UserName { get; }
 
-        var dto = new UserDto(user.Id, user.Email, user.Login, user.Language, user.IsPremium);
-        return Result<UserDto>.Success(dto);
+        public string Password { get; }
+
+        public int Language { get; }
     }
 }

@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Builder;
-
-namespace LingEdu.WebApi.Middlewares
+﻿namespace LingEdu.WebApi.Middlewares
 {
     public static class ExceptionHandlingExtensions
     {

@@ -1,38 +1,36 @@
-using System.Security.Claims;
-using LingEdu.Users.Application.Users.GetCurrent;
+﻿using System.Security.Claims;
+using LingEdu.Users.Application.Users.GetCurrentUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LingEdu.WebApi.Controllers;
-
-[ApiController]
-[Route("api/users")]
-public class UsersController : ControllerBase
+namespace LingEdu.WebApi.Controllers
 {
-    private readonly IMediator _mediator;
-
-    public UsersController(IMediator mediator)
+    [Route("api/users")]
+    [ApiController]
+    public class UsersController : ControllerBase
     {
-        _mediator = mediator;
-    }
+        private readonly ISender _sender;
 
-    [Authorize]
-    [HttpGet("me")]
-    public async Task<IActionResult> Me(CancellationToken cancellationToken)
-    {
-        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue(ClaimTypes.Name);
-        if (userIdClaim is null || !Guid.TryParse(userIdClaim, out var userId))
+        public UsersController(ISender sender)
         {
-            return Unauthorized();
+            _sender = sender;
         }
 
-        var result = await _mediator.Send(new GetCurrentUserQuery(userId), cancellationToken);
-        if (!result.IsSuccess)
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetMe()
         {
-            return NotFound(result.Error);
-        }
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(userIdString, out var userId))
+            {
+                return Unauthorized();
+            }
 
-        return Ok(result.Value);
+            var query = new GetCurrentUserQuery(userId);
+            var result = await _sender.Send(query);
+
+            return result.IsSuccess ? Ok(result.Value) : NotFound();
+        }
     }
 }

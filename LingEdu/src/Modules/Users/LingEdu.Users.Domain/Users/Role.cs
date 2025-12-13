@@ -1,18 +1,29 @@
-using LingEdu.BuildingBlocks.Domain;
-
-namespace LingEdu.Users.Domain.Users;
-
-public class Role : Entity
+﻿namespace LingEdu.Users.Domain.Users
 {
-    public string Name { get; private set; }
-
-    private Role()
+    public sealed class Role
     {
-        Name = string.Empty;
-    }
+        private Role()
+        {
+        }
 
-    public Role(string name)
-    {
-        Name = name;
+        private Role(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public Guid Id { get; private set; }
+
+        public string Name { get; private set; } = default!;
+
+        public static Role Create(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Role name cannot be empty.", nameof(name));
+            }
+
+            return new Role(Guid.NewGuid(), name.Trim());
+        }
     }
 }

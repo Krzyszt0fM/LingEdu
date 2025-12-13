@@ -1,15 +1,23 @@
-using LingEdu.Users.Domain.Users;
+﻿using LingEdu.Users.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LingEdu.Users.Infrastructure.Persistence.Configurations;
-
-public class RoleConfiguration : IEntityTypeConfiguration<Role>
+namespace LingEdu.Users.Infrastructure.Persistence.Configurations
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        builder.ToTable("Roles");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Name).IsRequired();
+        public void Configure(EntityTypeBuilder<Role> builder)
+        {
+            builder.ToTable("Roles");
+
+            builder.HasKey(r => r.Id);
+
+            builder.Property(r => r.Name)
+                .IsRequired()
+                .HasMaxLength(64);
+
+            builder.HasIndex(r => r.Name)
+                .IsUnique();
+        }
     }
 }
