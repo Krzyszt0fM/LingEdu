@@ -1,26 +1,22 @@
-﻿using LingEdu.Users.Domain.Users;
-using LingEdu.Users.Infrastructure.Persistence.Configurations;
+using LingEdu.BuildingBlocks.Infrastructure;
+using LingEdu.Users.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace LingEdu.Users.Infrastructure.Persistence
+namespace LingEdu.Users.Infrastructure.Persistence;
+
+public class UsersDbContext : DbContextBase
 {
-    public sealed class UsersDbContext : DbContext
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
+
+    public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options)
     {
-        public UsersDbContext(DbContextOptions<UsersDbContext> options)
-            : base(options)
-        {
-        }
+    }
 
-        public DbSet<User> Users => Set<User>();
-
-        public DbSet<Role> Roles => Set<Role>();
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.RoleConfiguration());
+        base.OnModelCreating(modelBuilder);
     }
 }

@@ -1,15 +1,11 @@
-﻿namespace LingEdu.Users.Application.Auth
+namespace LingEdu.Users.Application.Auth;
+
+public class JwtOptions
 {
-    public sealed class JwtOptions
-    {
-        public const string SectionName = "Jwt";
+    public const string SectionName = "Jwt";
 
-        public string Key { get; init; } = default!;
-
-        public string Issuer { get; init; } = default!;
-
-        public string Audience { get; init; } = default!;
-
-        public int ExpirationMinutes { get; init; } = 120;
-    }
+    public string Issuer { get; set; } = string.Empty;
+    public string Audience { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
+    public int ExpirationMinutes { get; set; } = 60;
 }
