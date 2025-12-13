@@ -1,22 +1,14 @@
-﻿using LingEdu.Users.Application.Common;
 using LingEdu.Users.Domain.Users;
+using Microsoft.AspNetCore.Identity;
 
-namespace LingEdu.Users.Infrastructure.Services
+namespace LingEdu.Users.Infrastructure.Services;
+
+public class PasswordHasher : IPasswordHasher<User>
 {
-    internal sealed class PasswordHasher : IPasswordHasher<User>
-    {
-        private readonly Microsoft.AspNetCore.Identity.PasswordHasher<User> _hasher = new();
+    private readonly PasswordHasher<User> _inner = new();
 
-        public string HashPassword(User user, string password)
-        {
-            return _hasher.HashPassword(user, password);
-        }
+    public string HashPassword(User user, string password) => _inner.HashPassword(user, password);
 
-        public bool VerifyHashedPassword(User user, string hashedPassword, string providedPassword)
-        {
-            var result = _hasher.VerifyHashedPassword(user, hashedPassword, providedPassword);
-
-            return result != Microsoft.AspNetCore.Identity.PasswordVerificationResult.Failed;
-        }
-    }
+    public PasswordVerificationResult VerifyHashedPassword(User user, string hashedPassword, string providedPassword) =>
+        _inner.VerifyHashedPassword(user, hashedPassword, providedPassword);
 }

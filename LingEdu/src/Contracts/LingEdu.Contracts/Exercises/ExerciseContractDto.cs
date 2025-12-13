@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace LingEdu.Contracts.Exercises;
 
-namespace LingEdu.Contracts.Exercises
-{
-    public sealed class ExerciseContractDto
-    {
-        public Guid Id { get; init; }
+public record ExerciseContractDto(Guid Id, string Title, string Level, bool IsPremium, IReadOnlyList<QuizQuestionContractDto> Questions);
 
-        public string Title { get; init; } = default!;
+public record QuizQuestionContractDto(Guid Id, string Question, IReadOnlyList<QuizOptionContractDto> Options);
 
-        public string Type { get; init; } = default!;
+public record QuizOptionContractDto(Guid Id, string Text);
 
-        public string Level { get; init; } = default!;
+public record SubmitSolutionRequest(IReadOnlyList<Guid> SelectedOptionIds);
 
-        public bool IsPremium { get; init; }
-    }
-}
+public record ExerciseResultDto(bool IsCorrect, int ScoreAwarded);

@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Users\LingEdu.Users.Infrastructure\LingEdu.Users.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

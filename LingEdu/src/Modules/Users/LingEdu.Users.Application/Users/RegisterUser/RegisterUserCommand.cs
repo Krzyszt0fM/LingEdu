@@ -1,23 +1,36 @@
-﻿using LingEdu.BuildingBlocks.Application.Cqrs;
+using LingEdu.BuildingBlocks.Application;
+using LingEdu.Users.Application.Common;
+using LingEdu.Users.Domain.Users;
 
-namespace LingEdu.Users.Application.Users.RegisterUser
+namespace LingEdu.Users.Application.Users.RegisterUser;
+
+public record RegisterUserCommand(string Email, string Login, string Password, Language Language) : ICommand<UserDto>;
+
+public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserDto>
 {
-    public sealed class RegisterUserCommand : ICommand<UserDto>
+    private readonly IUserRepository _userRepository;
+    private readonly IPasswordHasher<User> _passwordHasher;
+
+    public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
     {
-        public RegisterUserCommand(string email, string userName, string password, int language)
+        _userRepository = userRepository;
+        _passwordHasher = passwordHasher;
+    }
+
+    public async Task<Result<UserDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    {
+        if (await _userRepository.EmailExistsAsync(request.Email, cancellationToken))
         {
-            Email = email;
-            UserName = userName;
-            Password = password;
-            Language = language;
+            return Result<UserDto>.Failure(Error.Validation("Email already exists"));
         }
 
-        public string Email { get; }
+        var user = new User(request.Email, request.Login, string.Empty, request.Language);
+        var passwordHash = _passwordHasher.HashPassword(user, request.Password);
+        user = new User(request.Email, request.Login, passwordHash, request.Language);
 
-        public string UserName { get; }
+        await _userRepository.AddAsync(user, cancellationToken);
 
-        public string Password { get; }
-
-        public int Language { get; }
+        var dto = new UserDto(user.Id, user.Email, user.Login, user.Language, user.IsPremium);
+        return Result<UserDto>.Success(dto);
     }
 }

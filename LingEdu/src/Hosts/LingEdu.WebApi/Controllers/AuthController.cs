@@ -1,38 +1,42 @@
-﻿using LingEdu.Users.Application.Users;
 using LingEdu.Users.Application.Users.LoginUser;
 using LingEdu.Users.Application.Users.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LingEdu.WebApi.Controllers
+namespace LingEdu.WebApi.Controllers;
+
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
 {
-    [Route("api/auth")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public AuthController(IMediator mediator)
     {
-        private readonly ISender _sender;
+        _mediator = mediator;
+    }
 
-        public AuthController(ISender sender)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(command, cancellationToken);
+        if (!result.IsSuccess)
         {
-            _sender = sender;
+            return BadRequest(result.Error);
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
-        {
-            var command = new RegisterUserCommand(request.Email, request.UserName, request.Password, request.Language);
-            var result = await _sender.Send(command);
+        return Ok(result.Value);
+    }
 
-            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUserQuery query, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(query, cancellationToken);
+        if (!result.IsSuccess)
+        {
+            return Unauthorized(result.Error);
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        {
-            var command = new LoginUserCommand(request.Email, request.Password);
-            var result = await _sender.Send(command);
-
-            return result.IsSuccess ? Ok(result.Value) : Unauthorized(new { error = result.Error });
-        }
+        return Ok(result.Value);
     }
 }

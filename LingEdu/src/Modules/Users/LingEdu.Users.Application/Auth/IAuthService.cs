@@ -1,9 +1,10 @@
-﻿using LingEdu.Users.Application.Users;
+using LingEdu.BuildingBlocks.Application;
+using LingEdu.Users.Application.Users.LoginUser;
+using LingEdu.Users.Domain.Users;
 
-namespace LingEdu.Users.Application.Auth
+namespace LingEdu.Users.Application.Auth;
+
+public interface IAuthService
 {
-    public interface IAuthService
-    {
-        string GenerateToken(UserDto user);
-    }
+    Task<Result<LoginResponse>> LoginAsync(LoginRequest request, CancellationToken cancellationToken);
 }

@@ -1,9 +1,10 @@
-﻿using System.Net;
+using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
-namespace LingEdu.WebApi.Middlewares 
+namespace LingEdu.WebApi.Middlewares
 {
-
     public sealed class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
@@ -39,5 +40,4 @@ namespace LingEdu.WebApi.Middlewares
             }
         }
     }
-
 }

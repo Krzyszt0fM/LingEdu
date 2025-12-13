@@ -19,8 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Users\LingEdu.Users.Infrastructure\LingEdu.Users.Infrastructure.csproj" />
-	  <ProjectReference Include="..\..\Modules\Users\LingEdu.Users.Infrastructure\LingEdu.Users.Infrastructure.csproj" />
 	  <ProjectReference Include="..\..\Contracts\LingEdu.Contracts\LingEdu.Contracts.csproj" />
+      <ProjectReference Include="..\..\Modules\Subscriptions\LingEdu.Subscriptions.Infrastructure\LingEdu.Subscriptions.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Exercises\LingEdu.Exercises.Infrastructure\LingEdu.Exercises.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

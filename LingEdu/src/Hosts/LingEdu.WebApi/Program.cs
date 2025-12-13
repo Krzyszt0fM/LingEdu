@@ -1,6 +1,8 @@
 using System.Text;
 using LingEdu.WebApi.Middlewares;
 using LingEdu.Users.Infrastructure;
+using LingEdu.Subscriptions.Infrastructure;
+using LingEdu.Exercises.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -36,14 +38,9 @@ builder.Services.AddCors(options =>
 });
 
 var jwtSection = builder.Configuration.GetSection("Jwt");
-var jwtKey = jwtSection["Key"];
+var jwtKey = jwtSection["Key"] ?? "dev-key-should-be-overridden";
 var jwtIssuer = jwtSection["Issuer"];
 var jwtAudience = jwtSection["Audience"];
-
-if (string.IsNullOrWhiteSpace(jwtKey))
-{
-    throw new InvalidOperationException("JWT Key is not configured. Provide Jwt:Key in appsettings.");
-}
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -63,15 +60,14 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-// TODO: w kolejnych dniach – rejestracja modu³ów, MediatR itd.
-
 builder.Services.AddUsersModule(builder.Configuration);
+builder.Services.AddSubscriptionsModule(builder.Configuration);
+builder.Services.AddExercisesModule(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseExceptionHandling();
 
-// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -79,15 +75,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("AppCorsPolicy");
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.MapGet("/api/health", () => Results.Ok("OK"))
     .WithName("HealthCheck");
 
 app.Run();
+
+namespace LingEdu.WebApi
+{
+    public partial class Program { }
+}

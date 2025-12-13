@@ -1,6 +1,7 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit;
 
 namespace LingEdu.Users.IntegrationTests;
 
