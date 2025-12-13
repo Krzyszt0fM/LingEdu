@@ -1,5 +1,6 @@
 ﻿using LingEdu.BuildingBlocks.Application.Common;
 using LingEdu.BuildingBlocks.Application.Cqrs;
+using LingEdu.Users.Application.Common;
 using LingEdu.Users.Domain.Enums;
 using LingEdu.Users.Domain.Users;
 using System;
@@ -35,11 +36,8 @@ namespace LingEdu.Users.Application.Users.RegisterUser
             }
 
             var language = (Language)request.Language;
-
-            var user = User.Create(email, request.UserName.Trim(), language);
-
-            var hashed = _passwordHasher.HashPassword(user, request.Password);
-            user.SetPasswordHash(hashed);
+            var hashed = _passwordHasher.HashPassword(null!, request.Password);
+            var user = User.Create(email, request.UserName.Trim(), hashed, language);
 
             await _userRepository.AddAsync(user, cancellationToken);
 
@@ -49,4 +47,3 @@ namespace LingEdu.Users.Application.Users.RegisterUser
         }
     }
 }
-

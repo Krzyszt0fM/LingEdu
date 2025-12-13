@@ -24,11 +24,11 @@
 	<ItemGroup>
     <ProjectReference Include="..\LingEdu.Users.Domain\LingEdu.Users.Domain.csproj" />
 	  <ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Infrastructure\LingEdu.BuildingBlocks.Infrastructure.csproj" />
+	<ProjectReference Include="..\LingEdu.Users.Application\LingEdu.Users.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Identity\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

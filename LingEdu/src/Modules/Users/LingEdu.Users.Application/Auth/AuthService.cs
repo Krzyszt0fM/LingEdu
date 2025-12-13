@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 namespace LingEdu.Users.Application.Auth
 {
-    internal sealed class AuthService : IAuthService
+    public class AuthService : IAuthService
     {
         private readonly JwtOptions _options;
 
