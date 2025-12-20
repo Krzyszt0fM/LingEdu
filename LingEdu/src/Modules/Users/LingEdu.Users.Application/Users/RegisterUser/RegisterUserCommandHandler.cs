@@ -23,9 +23,7 @@ namespace LingEdu.Users.Application.Users.RegisterUser
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<Result<UserDto>> Handle(
-            RegisterUserCommand request,
-            CancellationToken cancellationToken)
+        public async Task<Result<UserDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var email = request.Email.Trim();
 
@@ -36,13 +34,12 @@ namespace LingEdu.Users.Application.Users.RegisterUser
             }
 
             var language = (Language)request.Language;
-            var hashed = _passwordHasher.HashPassword(null!, request.Password);
-            var user = User.Create(email, request.UserName.Trim(), hashed, language);
-
+            var user = User.Create(email, request.UserName.Trim(), "TEMP_HASH", language);
+            var hashed = _passwordHasher.HashPassword(user, request.Password);
+            user.ChangePassword(hashed);
             await _userRepository.AddAsync(user, cancellationToken);
 
             var dto = user.ToDto();
-
             return Result<UserDto>.Success(dto);
         }
     }

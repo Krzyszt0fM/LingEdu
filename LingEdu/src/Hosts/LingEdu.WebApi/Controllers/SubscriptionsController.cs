@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using LingEdu.Users.Domain.Users;
 
 namespace LingEdu.WebApi.Controllers
 {
@@ -10,10 +11,13 @@ namespace LingEdu.WebApi.Controllers
     public class SubscriptionsController : ControllerBase
     {
         private readonly ISubscriptionService _subscriptionService;
+        private readonly IUserRepository _userRepository;
 
-        public SubscriptionsController(ISubscriptionService subscriptionService)
+        public SubscriptionsController(ISubscriptionService subscriptionService, IUserRepository userRepository)
         {
             _subscriptionService = subscriptionService;
+            _userRepository = userRepository;
+
         }
 
         [HttpGet("plans")]
@@ -48,6 +52,15 @@ namespace LingEdu.WebApi.Controllers
             }
 
             await _subscriptionService.ActivateSubscriptionAsync(userId, planId);
+
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            user.MarkAsPremium();
+            await _userRepository.UpdateAsync(user);
 
             return Ok(new { message = "Subscription activated" });
         }

@@ -1,17 +1,47 @@
-using System.Text;
-using LingEdu.WebApi.Middlewares;
+using LingEdu.Subscriptions.Infrastructure;
 using LingEdu.Users.Infrastructure;
+using LingEdu.WebApi.Middlewares;
+using LingEdu.Exercises.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using LingEdu.Subscriptions.Infrastructure;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "LingEdu API",
+        Version = "v1"
+    });
 
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Paste JWT token ONLY (without 'Bearer ').",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = JwtBearerDefaults.AuthenticationScheme
+        }
+    };
+
+    options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { securityScheme, Array.Empty<string>() }
+    });
+});
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
 
 builder.Services.AddCors(options =>
@@ -68,6 +98,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddUsersModule(builder.Configuration);
 builder.Services.AddSubscriptionsModule(builder.Configuration);
+builder.Services.AddExercisesModule(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -77,7 +109,10 @@ app.UseExceptionHandling();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "LingEdu API v1");
+    });
 }
 
 app.UseHttpsRedirection();

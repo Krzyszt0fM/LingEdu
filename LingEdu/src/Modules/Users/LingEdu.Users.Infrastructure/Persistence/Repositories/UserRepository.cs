@@ -37,5 +37,11 @@ namespace LingEdu.Users.Infrastructure.Persistence.Repositories
         {
             return _dbContext.Users.AnyAsync(u => u.Email == email, cancellationToken);
         }
+
+        public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }
