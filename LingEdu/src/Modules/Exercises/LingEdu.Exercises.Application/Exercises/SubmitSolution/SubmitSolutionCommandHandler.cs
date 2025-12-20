@@ -9,6 +9,8 @@ using LingEdu.Exercises.Application.Common;
 using LingEdu.Exercises.Domain.Progress;
 using LingEdu.Exercises.Domain.Repositories;
 using LingEdu.Users.Domain.Users;
+using LingEdu.Ranking.Application.Services;
+
 
 namespace LingEdu.Exercises.Application.Exercises.SubmitSolution
 {
@@ -17,11 +19,13 @@ namespace LingEdu.Exercises.Application.Exercises.SubmitSolution
     {
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IRankingService _rankingService;
 
-        public SubmitSolutionCommandHandler(IExerciseRepository exerciseRepository, IUserRepository userRepository)
+        public SubmitSolutionCommandHandler(IExerciseRepository exerciseRepository, IUserRepository userRepository, IRankingService rankingService)
         {
             _exerciseRepository = exerciseRepository;
             _userRepository = userRepository;
+            _rankingService = rankingService;
         }
 
         public async Task<Result<SubmitExerciseResultContractDto>> Handle(SubmitSolutionCommand request, CancellationToken cancellationToken)
@@ -83,6 +87,11 @@ namespace LingEdu.Exercises.Application.Exercises.SubmitSolution
                 completedAt);
 
             await _exerciseRepository.AddUserProgressAsync(progress, cancellationToken);
+
+            if (points > 0)
+            {
+                await _rankingService.AddPointsAsync(request.UserId, points, "ExerciseCompleted", cancellationToken);
+            }
 
             var result = new SubmitExerciseResultContractDto
             {

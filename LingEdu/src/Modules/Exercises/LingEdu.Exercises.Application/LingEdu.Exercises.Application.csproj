@@ -11,5 +11,6 @@
 		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Application\LingEdu.BuildingBlocks.Application.csproj" />
 		<ProjectReference Include="..\..\..\Contracts\LingEdu.Contracts\LingEdu.Contracts.csproj" />
 		<ProjectReference Include="..\..\Users\LingEdu.Users.Domain\LingEdu.Users.Domain.csproj" />
+		<ProjectReference Include="..\..\Ranking\LingEdu.Ranking.Application\LingEdu.Ranking.Application.csproj" />
 	</ItemGroup>
 </Project>

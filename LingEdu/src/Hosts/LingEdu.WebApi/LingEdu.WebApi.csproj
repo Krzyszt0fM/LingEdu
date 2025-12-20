@@ -22,6 +22,7 @@
 	  <ProjectReference Include="..\..\Contracts\LingEdu.Contracts\LingEdu.Contracts.csproj" />
 	  <ProjectReference Include="..\..\Modules\Subscriptions\LingEdu.Subscriptions.Infrastructure\LingEdu.Subscriptions.Infrastructure.csproj" />
 	  <ProjectReference Include="..\..\Modules\Exercises\LingEdu.Exercises.Infrastructure\LingEdu.Exercises.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Modules\Ranking\LingEdu.Ranking.Infrastructure\LingEdu.Ranking.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

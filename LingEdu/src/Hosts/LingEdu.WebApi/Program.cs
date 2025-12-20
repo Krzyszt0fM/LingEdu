@@ -1,5 +1,6 @@
 using LingEdu.Subscriptions.Infrastructure;
 using LingEdu.Users.Infrastructure;
+using LingEdu.Ranking.Infrastructure;
 using LingEdu.WebApi.Middlewares;
 using LingEdu.Exercises.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -99,6 +100,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddUsersModule(builder.Configuration);
 builder.Services.AddSubscriptionsModule(builder.Configuration);
 builder.Services.AddExercisesModule(builder.Configuration);
+builder.Services.AddRankingModule(builder.Configuration);
+
 
 
 var app = builder.Build();
