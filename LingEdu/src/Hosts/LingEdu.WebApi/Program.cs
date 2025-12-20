@@ -3,6 +3,7 @@ using LingEdu.WebApi.Middlewares;
 using LingEdu.Users.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using LingEdu.Subscriptions.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,7 @@ builder.Services.AddAuthorization();
 // TODO: w kolejnych dniach – rejestracja modu³ów, MediatR itd.
 
 builder.Services.AddUsersModule(builder.Configuration);
+builder.Services.AddSubscriptionsModule(builder.Configuration);
 
 var app = builder.Build();
 

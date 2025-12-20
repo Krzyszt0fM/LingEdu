@@ -1,6 +1,7 @@
 ﻿using LingEdu.Users.Application.Users;
 using LingEdu.Users.Application.Users.LoginUser;
 using LingEdu.Users.Application.Users.RegisterUser;
+using LingEdu.WebApi.Contracts.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace LingEdu.WebApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var command = new RegisterUserCommand(request.Email, request.UserName, request.Password, request.Language);
             var result = await _sender.Send(command);

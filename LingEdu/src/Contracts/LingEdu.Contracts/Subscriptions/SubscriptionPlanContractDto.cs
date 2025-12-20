@@ -6,7 +6,7 @@ namespace LingEdu.Contracts.Subscriptions
 {
     public sealed class SubscriptionPlanContractDto
     {
-        public int Id { get; init; }
+        public Guid Id { get; init; }
 
         public string Name { get; init; } = default!;
 
