@@ -3,6 +3,7 @@ using LingEdu.Users.Infrastructure;
 using LingEdu.Ranking.Infrastructure;
 using LingEdu.WebApi.Middlewares;
 using LingEdu.Exercises.Infrastructure;
+using LingEdu.Contests.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -101,6 +102,7 @@ builder.Services.AddUsersModule(builder.Configuration);
 builder.Services.AddSubscriptionsModule(builder.Configuration);
 builder.Services.AddExercisesModule(builder.Configuration);
 builder.Services.AddRankingModule(builder.Configuration);
+builder.Services.AddContestsModule(builder.Configuration);
 
 
 

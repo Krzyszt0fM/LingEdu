@@ -41,5 +41,12 @@ namespace LingEdu.Exercises.Infrastructure.Persistence.Repositories
             await _dbContext.UserProgress.AddAsync(progress, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
+        public Task<List<UserProgress>> GetUserProgressAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return _dbContext.UserProgress
+                .Where(p => p.UserId == userId)
+                .OrderByDescending(p => p.CompletedAt)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

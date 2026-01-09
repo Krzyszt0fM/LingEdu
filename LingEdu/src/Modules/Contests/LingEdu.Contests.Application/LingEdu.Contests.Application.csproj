@@ -7,6 +7,8 @@
   </PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\LingEdu.Contests.Domain\LingEdu.Contests.Domain.csproj" />
+		<ProjectReference Include="..\..\..\Contracts\LingEdu.Contracts\LingEdu.Contracts.csproj" />
 		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Domain\LingEdu.BuildingBlocks.Domain.csproj" />
+		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Application\LingEdu.BuildingBlocks.Application.csproj" />
 	</ItemGroup>
 </Project>
