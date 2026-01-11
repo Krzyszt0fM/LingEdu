@@ -536,3 +536,4 @@ coverage/
 ########################################
 _ReSharper*/
 *.DotSettings.user
+LingEdu/frontend/apps/web/package-lock.json
