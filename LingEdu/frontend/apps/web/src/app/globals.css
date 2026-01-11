@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root {
+  --bg: 10 12 16;         /* deep near-black */
+  --card: 16 20 28;       /* slightly lighter */
+  --border: 40 48 64;     /* soft border */
+  --text: 226 232 240;    /* slate-200 */
+  --muted: 148 163 184;   /* slate-400 */
+
+  --accent-blue: 99 102 241;   /* indigo-ish */
+  --accent-green: 34 197 94;   /* green */
+  --accent-violet: 168 85 247; /* violet */
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--text));
+}
+
+a {
+  color: rgb(var(--text));
+}
