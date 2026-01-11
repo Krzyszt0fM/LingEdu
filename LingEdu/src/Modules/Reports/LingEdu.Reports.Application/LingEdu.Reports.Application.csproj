@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Contracts\LingEdu.Contracts\LingEdu.Contracts.csproj" />
+		<ProjectReference Include="..\..\Exercises\LingEdu.Exercises.Domain\LingEdu.Exercises.Domain.csproj" />
+		<ProjectReference Include="..\..\Ranking\LingEdu.Ranking.Application\LingEdu.Ranking.Application.csproj" />
 		<ProjectReference Include="..\LingEdu.Reports.Domain\LingEdu.Reports.Domain.csproj" />
 		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Application\LingEdu.BuildingBlocks.Application.csproj" />
 	</ItemGroup>
