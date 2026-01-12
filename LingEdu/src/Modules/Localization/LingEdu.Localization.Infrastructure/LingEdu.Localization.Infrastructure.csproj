@@ -5,5 +5,8 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\LingEdu.Localization.Domain\LingEdu.Localization.Domain.csproj" />
+		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Infrastructure\LingEdu.BuildingBlocks.Infrastructure.csproj" />
+	</ItemGroup>
 </Project>

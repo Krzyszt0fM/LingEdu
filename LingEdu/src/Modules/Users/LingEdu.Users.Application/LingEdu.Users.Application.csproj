@@ -5,5 +5,13 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\LingEdu.Users.Domain\LingEdu.Users.Domain.csproj" />
+		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Domain\LingEdu.BuildingBlocks.Domain.csproj" />
+		<ProjectReference Include="..\..\..\BuildingBlocks\LingEdu.BuildingBlocks.Application\LingEdu.BuildingBlocks.Application.csproj" />
+		<PackageReference Include="MediatR" Version="13.1.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+	</ItemGroup>
 </Project>
